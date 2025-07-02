@@ -186,7 +186,7 @@
                                 <span class="fw-bold">{{ value }}</span>
                             </div>
                             <div class="progress mb-3" style="height: 8px;">
-                                {% set percentage = (value / report_data.total_registros * 100) if label != 'Registros eliminados' else (value / report_data.total_registros * 100) %}
+                                {% set percentage = (value / report_data.total_registros * 100) %}
                                 <div class="progress-bar 
                                     {% if label == 'Registros limpios' %}bg-success
                                     {% elif label == 'Registros eliminados' %}bg-danger
@@ -238,7 +238,7 @@
 
         <!-- Footer -->
         <footer class="mt-5 pt-3 text-muted text-center">
-            <p>Reporte generado el {{ now.strftime('%d/%m/%Y %H:%M') }}</p>
+            <p>Reporte generado el {% if now %}{{ now.strftime('%d/%m/%Y %H:%M') }}{% else %}N/A{% endif %}</p>
         </footer>
     </div>
 

@@ -12,10 +12,10 @@ app = Flask(__name__)
 
 # Configuración S3
 S3_BUCKET = 'second-8a216127-3dd9-4c8b-9191-334301d9f03c-5'
-S3_FILE_KEY = 'data_reporte.json'  # Ajusta si está en una subcarpeta ej: 'data/reporte.json'
+S3_FILE_KEY = 'data_reporte.json'
 s3 = boto3.client('s3')
 
-@lru_cache(maxsize=1)  # Cache para evitar descargas repetidas (se actualiza al reiniciar la app)
+@lru_cache(maxsize=1)
 def load_report_data():
     """Carga y valida el archivo JSON desde S3 con manejo robusto de errores"""
     try:
@@ -75,7 +75,7 @@ def index():
             }
         }
         
-        # Listar archivos en S3 (para mostrar en la interfaz)
+        # Listar archivos en S3
         s3_files = []
         try:
             objects = s3.list_objects_v2(Bucket=S3_BUCKET)
@@ -86,7 +86,8 @@ def index():
         return render_template('index.html',
                             stats=stats,
                             report_data=report_data,
-                            s3_files=s3_files)
+                            s3_files=s3_files,
+                            now=datetime.now())
     
     except Exception as e:
         error_msg = f"No se pudieron cargar los datos: {str(e)}"
